@@ -1,0 +1,28 @@
+{% load i18n %}
+{% if user.is_authenticated %}
+    <div class="navbar-form navbar-right">
+        <a href="{% url "blog_logout" %}" class="btn btn-danger">{% trans "Logout" %}</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            {% if user.is_superuser %}
+                <a href="{% url "admin:index" %}">{% trans "Hello" %} {{ user }}</a>
+            {% else %}
+                <a href="#">{% trans "Hello" %} {{ user }}</a>
+            {% endif %}
+
+        </li>
+    </ul>
+{% else %}
+    <form class="navbar-form navbar-right" method="post" role="form" action="{% url "blog_login" %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" placeholder="User" name="username" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="password" placeholder="Password" name="password" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">{% trans "Sign in" %}</button>
+    </form>
+{% endif %}
+

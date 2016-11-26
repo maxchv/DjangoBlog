@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
+            <h1 class="page-header">
+                {% trans "Welcome Blog" %}
+                <small>{% trans "Simple blog" %}</small>
+            </h1>
+
+            <!-- Blog Post -->
+            {% for post in posts %}
+                <h2>
+                    <a href="{% url "post" id=post.pk %}">{{ post.title }}</a>
+                </h2>
+                <p class="lead">
+                    {% trans "by" %} <a href="#">{{ post.user }}</a>
+                </p>
+                <p><span class="glyphicon glyphicon-time"></span>
+                    {% trans "Posted on" %} {{ post.published_date }}
+                </p>
+                <hr>
+                <img class="img-responsive" width="900" height="300" src="{{ post.img.url }}" alt="{{ post.title }}" />
+                <hr>
+                <p>
+                    {{ post.content|truncatewords:20 }}
+                </p>
+
+                <a class="btn btn-primary" href="{% url "post" id=post.pk %}">
+                    {% trans "Read More" %} <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+                <hr>
+            {% endfor %}
+
+            <!-- Pager -->
+            <ul class="pager">
+                <li class="previous">
+                    <a href="#">&larr; {% trans "Older" %}</a>
+                </li>
+                <li class="next">
+                    <a href="#">{% trans "Newer" %} &rarr;</a>
+                </li>
+            </ul>
+        </div>
+    {% include "include/sidebar.html" %}
+    </div>
+
+{% endblock %}
